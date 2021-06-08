@@ -1,0 +1,36 @@
+.sender-container{
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+h1{
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+p{
+    width: 100%;
+    text-align: left;
+    margin-bottom: 5px;
+}
+
+textarea{
+    font-family: 'Varela Round', sans-serif;
+    font-size: larger;
+    width: 100%;
+    padding: 20px;
+    height: 50px;
+    word-wrap: normal;
+    border-radius:10px;
+    resize: none;
+    margin-bottom: 20px;
+}
+
+.buttons-container{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}

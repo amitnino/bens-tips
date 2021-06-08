@@ -1,10 +1,19 @@
 import { v4 as uuidv4 } from 'uuid';
 
-class TipsManager{
+export class TipsManager{
 
     constructor(){
         this._tips = [];
         this._promiseResolve = null;
+        this._onTipRecievedSubscribers = [];
+    };
+
+    addOnTipRecievedSubscriber(func){
+        this._onTipRecievedSubscribers.push(func);
+    };
+
+    alertSubscribers(subscribersArr, params){
+        subscribersArr.map(subscriberFunc=>subscriberFunc(params));
     };
 
     generateTip(tipText){
@@ -18,8 +27,11 @@ class TipsManager{
 
     addTip(tipText){
         const tip = this.generateTip(tipText);
-        if (!this._tips){
+        if (this._promiseResolve){
+            tip.recievedTime = Date.now();
+            this.alertSubscribers(this._onTipRecievedSubscribers, tip);
             this._promiseResolve(tip);
+            this._promiseResolve = undefined;
             return tip;
         };
         this._tips.push(tip);
@@ -30,21 +42,24 @@ class TipsManager{
         return this._tips.pop();
     };
     
-    getNextTip(){    
-        if(!this._tips){
+    async getNextTip(){    
+        if(!this._tips.length){
             const promise = new Promise((resolve, reject)=>{
                 try {
                     this._promiseResolve = resolve;
                 } catch (error) {
+                    console.log(error);
                     reject(error);
                 };
             });
             return promise;
         };
-        const tip = this._tips.pop();
+        const tip = this._tips.shift();
+        tip.recievedTime = Date.now();
+        this.alertSubscribers(this._onTipRecievedSubscribers, tip);
         return tip;
     };
 };
 
-export const globalTipsManager = new TipsManager();
-export default TipsManager;
+const globalTipsManager = new TipsManager();
+export default globalTipsManager;
