@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './RecieverComponent.css';
 import globalTipsManager from './../utils/TipsManager';
-import buttonHoverStyle from '../utils/buttonHoverStyle';
 
 const RecieverComponent = () => {
 
@@ -22,7 +21,7 @@ const RecieverComponent = () => {
     return (
         <div className="reciever-container">
             <h2>{currentTip.toUpperCase()}</h2>
-            <button style={!isNextTipBtnDisabled ? buttonHoverStyle : {}} onClick={handleNextTipBtn} disabled={isNextTipBtnDisabled} >NEXT TIP</button>
+            <button onClick={handleNextTipBtn} disabled={isNextTipBtnDisabled} >NEXT TIP</button>
         </div>
     );
 
